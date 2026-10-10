@@ -62,6 +62,14 @@ and Jailbreak Spell, and Witchwarper's Spellsurge Ammo, are the current candidat
 Psychic, Witch, and Kineticist have no SF2e equivalent, so this is new automation built for
 Starfinder's own classes, not a port.
 
+## Install
+
+Paste this manifest URL into **Add-on Modules → Install Module**:
+
+```
+https://github.com/0utrider/outrider-cantrips/releases/latest/download/module.json
+```
+
 ## License
 
 GPL-3.0-or-later. See `LICENSE`.
