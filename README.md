@@ -12,7 +12,7 @@ Suite of RAW-compatible Quality of Life modifications for Pathfinder 2 (PF2e) an
 rules. All for use within [Foundry VTT](https://foundryvtt.com/), part of the
 [Outrider's Pathfinder Tools](https://0utrider.github.io/pathfinder/) collection.
 
-<p align="center"><img src="docs/demo-amp.webp" alt="A Psychic's Daze cantrip, amped and under Cantrip Mastery, showing the module's Amp and Mastery callouts and tags on the chat card" width="420"></p>
+<p align="center"><img src="docs/demo-amp.webp" alt="A Psychic's Daze cantrip, amped and under Cantrip Mastery, showing the module's Amp and Mastery callouts and tags on the chat card" width="180"></p>
 
 All settings live in **Configure Settings -> Outrider's Cantrips**, grouped by category.
 
