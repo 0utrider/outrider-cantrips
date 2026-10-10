@@ -1,0 +1,45 @@
+{
+  "_id": "ocAmpOmniTarget1",
+  "name": "Spell Effect: Omnidirectional Scan (Amped Target)",
+  "type": "effect",
+  "img": "systems/pf2e/icons/spells/omnidirectional-scan.webp",
+  "system": {
+    "slug": "spell-effect-omnidirectional-scan-amped-target",
+    "description": {
+      "value": "<p>Granted by @UUID[Compendium.pf2e.spells-srd.Item.l4bHFR9UW2XiY3kH]{Omnidirectional Scan} (amped)</p>\n<p>You have been scanned. The caster and the caster's allies within 30 feet of the caster gain a +1 circumstance bonus to attack rolls and damage rolls against you.</p>",
+      "gm": ""
+    },
+    "level": {
+      "value": 3
+    },
+    "duration": {
+      "value": 1,
+      "unit": "rounds",
+      "expiry": "turn-start",
+      "sustained": false
+    },
+    "rules": [],
+    "badge": null,
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "traits": {
+      "value": [],
+      "otherTags": []
+    },
+    "publication": {
+      "title": "Outrider's Cantrips",
+      "authors": "",
+      "license": "ORC",
+      "remaster": true
+    },
+    "unidentified": false,
+    "fromSpell": false,
+    "context": null
+  },
+  "_key": "!items!ocAmpOmniTarget1"
+}

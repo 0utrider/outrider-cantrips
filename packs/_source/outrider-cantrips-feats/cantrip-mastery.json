@@ -1,0 +1,61 @@
+{
+  "_id": "ocFeatCantripMst",
+  "name": "Cantrip Mastery",
+  "type": "feat",
+  "img": "icons/sundries/books/book-red-exclamation.webp",
+  "system": {
+    "slug": "cantrip-mastery",
+    "description": {
+      "value": "<p>Long practice has made your simplest magic your surest. You gain a +1 untyped bonus to attack rolls and DCs of your cantrips.</p>\n<p>When a cantrip you cast deals damage or grants temporary Hit Points, add the spellcasting attribute modifier of the spellcasting entry you cast it from. If your table already adds that modifier to every cantrip, or the cantrip already adds it, you add 1 instead.</p>\n<p>When you cast @UUID[Compendium.pf2e.spells-srd.Item.SnjhtQYexDtNDdEg]{Stabilize}, the target also regains Hit Points equal to that modifier, so it is not left unconscious at 0 Hit Points.</p>\n<p>If you have Elemental Blast, you also gain a +1 untyped bonus to its attack rolls and damage rolls, of whatever type the blast deals.</p>\n<p>Every benefit after the first is a house rule a GM turns on in this module's settings.</p>",
+      "gm": ""
+    },
+    "level": {
+      "value": 3
+    },
+    "category": "general",
+    "traits": {
+      "value": [
+        "general",
+        "magical"
+      ],
+      "rarity": "common",
+      "otherTags": []
+    },
+    "actionType": {
+      "value": "passive"
+    },
+    "actions": {
+      "value": null
+    },
+    "prerequisites": {
+      "value": []
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "selector": "spell-attack",
+        "value": 1,
+        "type": "untyped",
+        "predicate": [
+          "item:trait:cantrip"
+        ]
+      },
+      {
+        "key": "FlatModifier",
+        "selector": "spell-dc",
+        "value": 1,
+        "type": "untyped",
+        "predicate": [
+          "item:trait:cantrip"
+        ]
+      }
+    ],
+    "publication": {
+      "title": "Outrider's Cantrips",
+      "authors": "",
+      "license": "ORC",
+      "remaster": true
+    }
+  },
+  "_key": "!items!ocFeatCantripMst"
+}

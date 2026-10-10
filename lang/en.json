@@ -1,0 +1,221 @@
+{
+  "CANTRIPS": {
+    "PsychicAmps": {
+      "PromptTitle": "Amp Psi Cantrip",
+      "PromptBody": "Spend 1 Focus Point to amp <strong>{name}</strong>?",
+      "Yes": "Amp",
+      "No": "No Amp",
+      "RiderName": "Spell Effect: {spell} (Amped)",
+      "GrantedBy": "Granted by {spell}",
+      "Riders": {
+        "Daze": "Your mental defenses are cracked. You have weakness to mental damage and take a -1 status penalty to Will saves until the end of your next turn.",
+        "ShatterMind": "Your mind is assailed. You are Stupefied until the start of the caster's next turn."
+      },
+      "AmpedName": "{name} (Amped)",
+      "NoGMWarning": "No GM is connected. {name}'s amp effect will not apply automatically.",
+      "Actions": {
+        "NoSpell": "No Telekinetic Hand to roll this for. Click the link on the spell's chat card, or select the caster's token.",
+        "NoTarget": "Target the creature first."
+      },
+      "Rules": {
+        "PhaseBoltCritical": "The target can't be affected by teleportation effects until the start of your next turn.",
+        "PhaseBoltHardness": "The bolt ignores an amount of Hardness or resistance to piercing damage equal to half the spell's rank.",
+        "GhostlyShiftDamage": "@Damage[(max(2,ceil(@item.rank/2)))d6[force]] to the creature you pass through."
+      }
+    },
+    "Encore": {
+      "PromptTitle": "Composition Spellshape",
+      "PromptBody": "Use a spellshape on <strong>{name}</strong>? It costs 1 Focus Point, spent only if the Performance check succeeds.",
+      "No": "No Spellshape",
+      "DC": "{name} DC",
+      "CheckTooltip": "Performance check against DC {dc}",
+      "DurationNote": "{name}: this lasts {rounds} rounds.",
+      "Lingering": {
+        "Button": "Lingering",
+        "Tag": "Lingering",
+        "Basis": "Standard DC for level {level}, the highest-level target ({target}).",
+        "BasisNone": "No target found on the scene. This is the standard DC for your own level, {level}.",
+        "CriticalSuccess": "Critical success. The composition lasts 4 rounds.",
+        "Success": "Success. The composition lasts 3 rounds.",
+        "Failure": "Failure. The composition lasts 1 round, and no Focus Point is spent."
+      },
+      "Fortissimo": {
+        "Button": "Fortissimo",
+        "Tag": "Fortissimo",
+        "Basis": "Highest Will DC among the targets ({target}).",
+        "CriticalSuccess": "Critical success. The composition's status bonus is +3.",
+        "Success": "Success. The composition's status bonus is +2.",
+        "Failure": "Failure. The composition keeps its +1 bonus, and no Focus Point is spent."
+      }
+    },
+    "FamiliarsEcho": {
+      "Target": "Target",
+      "Feet": "ft",
+      "RangeHint": "Creatures within {range} feet of {familiar}.",
+      "NoFamiliarToken": "Your familiar has no token on this scene, so every creature here is listed.",
+      "Apply": "Apply",
+      "Skip": "Skip",
+      "Applied": "Applied to {target}.",
+      "AppliedChoice": "Applied to {target}: {choice}.",
+      "Tag": "Familiar",
+      "EffectName": "Effect: {title}",
+      "Sustain": "Sustain",
+      "SustainTitle": "Sustain: {spell}",
+      "SecondHex": "<strong>{name}</strong> already cast a hex this turn ({previous}). Only one hex can be cast each turn, so <strong>{spell}</strong> fails and its actions are lost.",
+      "NoGMWarning": "No GM is connected. {title} will not be applied automatically."
+    },
+    "Homebrew": {
+      "MasteryTitle": "Cantrip Mastery",
+      "MasteryTag": "Mastery",
+      "AbilityTitle": "Spellcasting Ability",
+      "AbilityTag": "Ability",
+      "Bonus": "+{bonus} to numeric effects.",
+      "TempHPNote": "Includes +{total} temporary Hit Points: {parts}.",
+      "StabilizeText": "Life energy shuts death's door. The target loses the {dying} condition, though it remains {wounded}.",
+      "StabilizeHeal": "{targets} is also healed for {amount}.",
+      "StabilizeHealNoTarget": "The target is also healed for {amount}.",
+      "StabilizeNoTarget": "No token was targeted. Apply this by hand.",
+      "NoGMWarning": "No GM is connected. {name}'s healing from Cantrip Mastery will not apply automatically."
+    },
+    "Kineticist": {
+      "NoKineticist": "You don't own a kineticist with Elemental Blast.",
+      "PickerLabel": "Kineticist",
+      "ActionCost": {
+        "1": "One Action",
+        "2": "Two Actions"
+      },
+      "ToggleActions": {
+        "Title": "Toggle Elemental Blast",
+        "Confirm": "Toggle",
+        "Done": "{name}: Elemental Blast set to {cost}"
+      },
+      "CycleDamage": {
+        "Title": "Cycle Elemental Blast Damage",
+        "Confirm": "Cycle",
+        "ElementLabel": "Element",
+        "OnlyOneType": "{name}: {blast} only deals {type} damage.",
+        "Done": "{name}: {blast} set to {type} ({index}/{total})"
+      }
+    },
+    "Palettes": {
+      "Lavender": "Lavender",
+      "Orchid": "Orchid",
+      "Indigo": "Indigo",
+      "Violet": "Electric Violet",
+      "Solid": "Solid Violet",
+      "Outline": "Violet Outline",
+      "Player": "Player Color"
+    },
+    "Settings": {
+      "Menu": {
+        "Name": "Outrider's Cantrips",
+        "Label": "Configure Features",
+        "Hint": "Turn the module's features on or off, grouped by category.",
+        "Title": "Outrider's Cantrips",
+        "Save": "Save Changes"
+      },
+      "Categories": {
+        "Qol": {
+          "Name": "Quality of Life",
+          "Hint": "Automation for specific classes that does not deviate from Rules as Written (RAW)."
+        }
+      },
+      "PsychicAmps": {
+        "Category": "Psychic Amps",
+        "CategoryHint": "Automation for the Psychic class's psi cantrips and amps.",
+        "Prompt": {
+          "Name": "Ask to amp on every cast",
+          "Hint": "Casting a psi cantrip with at least 1 Focus Point asks whether to amp it, and with which amp, instead of leaving the Amp toggle wherever it was last set."
+        },
+        "Riders": {
+          "Name": "Apply amp effects as they happen",
+          "Hint": "Adds amp effects the system only describes in text: on a failed save for Daze, Forbidden Thought, Shatter Mind and Telekinetic Rend, and temporary Hit Points for Frostbite when its damage is applied. Needs an active GM connected; casting one of these amped with no GM online posts a reminder in chat."
+        },
+        "Rules": {
+          "Name": "Fill in missing amp rules",
+          "Hint": "Automates amp text the system leaves to the table: Shatter Mind's larger cone, Phase Bolt's off-guard target, Ghostly Shift's damage, Telekinetic Hand's Shove by spell attack, the full Guidance bonus, Contagious Idea's temporary Hit Points, and links to this module's amp effects on amped spell cards."
+        },
+        "Cards": {
+          "Name": "Highlight amped spell cards",
+          "Hint": "Colors the conscious mind callout on the chat card of an amped cantrip and adds an Amp tag beside its traits."
+        },
+        "CardPalette": {
+          "Name": "Amp card colors",
+          "Hint": "Palette for the callout and the Amp tag on an amped cantrip's chat card. Only shows with the option above on."
+        }
+      },
+      "Encore": {
+        "Category": "Encore",
+        "CategoryHint": "Automation for the Bard's composition spellshapes, Lingering Composition and Fortissimo Composition.",
+        "Prompt": {
+          "Name": "Ask about spellshapes on every composition",
+          "Hint": "Casting a composition cantrip with at least 1 Focus Point asks whether to use Lingering Composition or Fortissimo Composition, whichever the caster has and the cantrip allows. Choosing one rolls Performance against its DC, which can be changed in the prompt, and spends the Focus Point only on a success."
+        },
+        "Effects": {
+          "Name": "Apply the result to composition effects",
+          "Hint": "After a successful check, an effect dragged from the composition's chat card lasts the rounds Lingering Composition earned, and Spell Effect: Fortissimo Composition is added beside an anthem's effect with its bonus already chosen."
+        },
+        "Cards": {
+          "Name": "Mark composition cards",
+          "Hint": "Adds a callout with the check's result to the composition's chat card, and a tag beside its traits when the check succeeded."
+        },
+        "CardPalette": {
+          "Name": "Encore card colors",
+          "Hint": "Palette for that callout and tag. Only shows with the option above on."
+        }
+      },
+      "FamiliarsEcho": {
+        "Category": "Familiar's Echo",
+        "CategoryHint": "Automation for the Witch's patron familiar ability, which triggers when a hex is Cast or Sustained.",
+        "Prompt": {
+          "Name": "Ask about the familiar ability on every hex",
+          "Hint": "Casting or Sustaining a hex asks whether to use the patron's familiar ability and on which creature, then applies it: Restored Spirit, Balanced Luck, Keen Senses, Paired Perplexity, Enticing Negotiation, Stalking Night and Bolstering Aid. Other patrons keep the reminder the system already puts on the card. Needs an active GM connected."
+        },
+        "Sustain": {
+          "Name": "Add a Sustain button to hex cards",
+          "Hint": "The chat card of a sustained hex gets a Sustain button for whoever owns the caster. It posts a short card for the Sustain and asks about the familiar ability again."
+        },
+        "HexGuard": {
+          "Name": "Warn about a second hex in a turn",
+          "Hint": "During an encounter, casting a second hex in the same turn whispers a reminder to the caster and the GM. The cast is not blocked."
+        },
+        "Cards": {
+          "Name": "Mark hex cards",
+          "Hint": "When a familiar ability was applied, colors its callout on the chat card, adds a line naming the creature it went to, and adds a Familiar tag beside the traits."
+        },
+        "CardPalette": {
+          "Name": "Familiar card colors",
+          "Hint": "Palette for that callout and tag. Only shows with the option above on."
+        }
+      },
+      "Homebrew": {
+        "Category": "Homebrew",
+        "CategoryHint": "House rules. Everything here is off unless you turn it on.",
+        "Groups": {
+          "CantripMastery": "Cantrip Mastery",
+          "SpellcastingModifier": "Spellcasting Modifier"
+        },
+        "CantripMastery": {
+          "Name": "Enable Cantrip Mastery",
+          "Hint": "A caster with the Cantrip Mastery feat (Feats pack) adds the spellcasting attribute modifier of the entry a cantrip is cast from to its damage or temporary Hit Points. The feat's +1 untyped bonus to cantrip attack rolls and DCs comes with the feat and works whether or not this is on."
+        },
+        "CantripMasteryStabilize": {
+          "Name": "Stabilize also heals",
+          "Hint": "With Cantrip Mastery on, Stabilize cast by a caster with the feat also heals a targeted creature at 0 Hit Points by the same modifier. Needs an active GM connected."
+        },
+        "CantripMasteryBlast": {
+          "Name": "Cantrip Mastery for Elemental Blast",
+          "Hint": "With Enable Cantrip Mastery also on, a character with the Cantrip Mastery feat gains a +1 bonus to Elemental Blast's attack rolls and damage rolls. The bonus is untyped, so it stacks with status bonuses, and the damage is whatever type the blast is set to. No other impulse changes."
+        },
+        "SpellAbilityDamage": {
+          "Name": "Add the modifier to every cantrip",
+          "Hint": "Every caster adds the spellcasting attribute modifier of the entry a cantrip is cast from to its damage or temporary Hit Points, no feat needed. With this on, Cantrip Mastery adds 1 on top instead of the modifier a second time."
+        },
+        "CardPalette": {
+          "Name": "Card colors",
+          "Hint": "Palette for the callout and the tag that Cantrip Mastery and the spellcasting modifier option add to a cantrip's chat card."
+        }
+      }
+    }
+  }
+}

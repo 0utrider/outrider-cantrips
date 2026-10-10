@@ -1,0 +1,153 @@
+/* Outrider's Cantrips */
+
+/* Settings menu (scripts/apps/settings-menu.js) */
+.outrider-cantrips-settings .outrider-cantrips-categories {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.outrider-cantrips-settings fieldset {
+  border-color: #7000d6;
+}
+
+.outrider-cantrips-settings fieldset > legend {
+  font-weight: bold;
+}
+
+.outrider-cantrips-settings fieldset > p.hint {
+  margin: 0 0 0.5rem;
+}
+
+/* A group inside a category: the same frame, fainter, so the category still reads as the outer box. */
+.outrider-cantrips-settings fieldset.outrider-cantrips-group {
+  border-color: color-mix(in srgb, #7000d6 45%, transparent);
+  margin-top: 0.5rem;
+}
+
+/* Checkbox rows: give the label the width, keep the box on the right. */
+.outrider-cantrips-settings .form-group > label {
+  flex: 5;
+}
+
+.outrider-cantrips-settings .form-group > .form-fields {
+  flex: 1;
+  justify-content: flex-end;
+}
+
+/* A drop-down needs room for its longest option. */
+.outrider-cantrips-settings .form-group > .form-fields:has(select) {
+  flex: 3;
+}
+
+/* Encore prompt (scripts/features/encore.js): a DC is two digits, so the label gets the room. */
+.outrider-encore-prompt .form-group > label {
+  flex: 3;
+}
+
+.outrider-encore-prompt .form-group > .form-fields {
+  flex: 1;
+}
+
+/* Spell cards in chat. Each feature that marks a card gives its callout and its
+   tag the classes "outrider-styled outrider-palette-<name>", with the name taken
+   from that feature's palette setting (scripts/card-palettes.js): markAmpedCard
+   in scripts/features/psychic-amps.js, markEncoreCard in
+   scripts/features/encore.js, markCantripCard in
+   scripts/features/cantrip-mastery.js. The callout keeps the system's frame
+   unless a palette says otherwise.
+
+   A palette is three or four values: fill, ink (the heading), tag, and text
+   where the fill is too dark for the card's own. Inks mixed with currentColor
+   lighten on dark sheets and darken on light ones. */
+.outrider-palette-lavender {
+  --outrider-fill: color-mix(in srgb, #cbb8f2 45%, transparent);
+  --outrider-ink: #3b2273;
+  --outrider-tag: #5b3ea3;
+}
+
+.outrider-palette-orchid {
+  --outrider-fill: color-mix(in srgb, #c800c8 20%, transparent);
+  --outrider-ink: color-mix(in srgb, #c800c8 65%, currentColor);
+  --outrider-tag: #c800c8;
+}
+
+.outrider-palette-indigo {
+  --outrider-fill: color-mix(in srgb, #3a2be6 20%, transparent);
+  --outrider-ink: color-mix(in srgb, #3a2be6 65%, currentColor);
+  --outrider-tag: #3a2be6;
+}
+
+.outrider-palette-violet {
+  --outrider-fill: color-mix(in srgb, #7000d6 30%, transparent);
+  --outrider-ink: color-mix(in srgb, #7000d6 65%, currentColor);
+  --outrider-tag: #7000d6;
+}
+
+.outrider-palette-solid {
+  --outrider-fill: #7000d6;
+  --outrider-ink: #efe6d8;
+  --outrider-text: #efe6d8;
+  --outrider-tag: #7000d6;
+}
+
+.outrider-palette-outline {
+  --outrider-fill: transparent;
+  --outrider-ink: color-mix(in srgb, #7000d6 65%, currentColor);
+  --outrider-tag: #7000d6;
+}
+
+/* Player Color: scripts/card-palettes.js puts the three --outrider-player values
+   on the element, read from the user who posted the card. The ratios are the
+   Electric Violet palette's. --outrider-player-ink is the color itself, or a
+   darker copy of it when the color is too pale to read as a heading. */
+.outrider-palette-player {
+  --outrider-fill: color-mix(in srgb, var(--outrider-player) 30%, transparent);
+  --outrider-ink: color-mix(in srgb, var(--outrider-player-ink) 65%, currentColor);
+  --outrider-tag: var(--outrider-player);
+}
+
+.chat-card .addendum.outrider-styled {
+  background: var(--outrider-fill);
+  color: var(--outrider-text, inherit);
+}
+
+.chat-card .addendum.outrider-styled > h4 {
+  color: var(--outrider-ink);
+}
+
+/* The tinted palettes other than Lavender carry a stripe down the left edge. */
+.chat-card .addendum.outrider-palette-orchid,
+.chat-card .addendum.outrider-palette-indigo,
+.chat-card .addendum.outrider-palette-violet {
+  border-left: 3px solid var(--outrider-ink);
+}
+
+.chat-card .addendum.outrider-palette-outline {
+  border: 2px solid #7000d6;
+}
+
+/* A pale player color barely tints the card, so this palette draws its own
+   frame as well, in the heading's color. */
+.chat-card .addendum.outrider-palette-player {
+  border: 2px solid var(--outrider-ink);
+}
+
+.chat-card .tags .tag.outrider-styled {
+  background: var(--outrider-tag);
+}
+
+/* A player's color can be pale, where the tag's white text would not show. */
+.chat-card .tags .tag.outrider-palette-player {
+  color: var(--outrider-player-contrast);
+}
+
+/* Effect names are long; let them wrap instead of running out of the card. */
+.chat-card.outrider-amped .addendum a.content-link {
+  white-space: normal;
+  word-break: normal;
+}

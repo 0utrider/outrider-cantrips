@@ -1,0 +1,52 @@
+{
+  "_id": "ocAmpTeleHand001",
+  "name": "Spell Effect: Telekinetic Hand (Amped)",
+  "type": "effect",
+  "img": "systems/pf2e/icons/spells/mage-hand.webp",
+  "system": {
+    "slug": "spell-effect-telekinetic-hand-amped",
+    "description": {
+      "value": "<p>Granted by @UUID[Compendium.pf2e.spells-srd.Item.pwzdSlJgYqN7bs2w]{Telekinetic Hand} (amped)</p>\n<p>Telekinetic hands grip you. You take a -10-foot circumstance penalty to your Speeds until the spell ends.</p>",
+      "gm": ""
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": 10,
+      "unit": "minutes",
+      "expiry": "turn-start",
+      "sustained": true
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "selector": "all-speeds",
+        "type": "circumstance",
+        "value": -10
+      }
+    ],
+    "badge": null,
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "traits": {
+      "value": [],
+      "otherTags": []
+    },
+    "publication": {
+      "title": "Outrider's Cantrips",
+      "authors": "",
+      "license": "ORC",
+      "remaster": true
+    },
+    "unidentified": false,
+    "fromSpell": false,
+    "context": null
+  },
+  "_key": "!items!ocAmpTeleHand001"
+}

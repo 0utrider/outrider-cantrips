@@ -1,0 +1,9 @@
+{
+  "_id": "ocMacSpellShove1",
+  "name": "Telekinetic Hand (Amped): Shove",
+  "type": "script",
+  "img": "systems/pf2e/icons/spells/mage-hand.webp",
+  "scope": "global",
+  "command": "// Rolls a Shove with an amped Telekinetic Hand as a spell attack.\n// Part of Outrider's Mods - 0utrider.github.io/pathfinder\ngame.modules.get(\"outrider-cantrips\")?.api?.spellAttackAction?.(\"shove\", { event: scope.event, actor });",
+  "_key": "!macros!ocMacSpellShove1"
+}

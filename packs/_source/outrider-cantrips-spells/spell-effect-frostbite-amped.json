@@ -1,0 +1,57 @@
+{
+  "_id": "ocAmpFrostbite01",
+  "name": "Spell Effect: Frostbite (Amped)",
+  "type": "effect",
+  "img": "icons/magic/movement/trail-streak-impact-blue.webp",
+  "system": {
+    "slug": "spell-effect-frostbite-amped",
+    "description": {
+      "value": "<p>Granted by @UUID[Compendium.pf2e.spells-srd.Item.IxhGEKl63R4QBvkj]{Frostbite} (amped)</p>\n<p>You replenish yourself with the heat you drained. You gain temporary Hit Points equal to half the damage the target took, shown as this effect's value. You lose any that remain after 1 minute.</p>",
+      "gm": ""
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": 1,
+      "unit": "minutes",
+      "expiry": "turn-start",
+      "sustained": false
+    },
+    "rules": [
+      {
+        "key": "TempHP",
+        "value": "@item.badge.value"
+      }
+    ],
+    "badge": {
+      "type": "counter",
+      "value": 1,
+      "min": 1,
+      "max": null,
+      "labels": null,
+      "loop": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "traits": {
+      "value": [],
+      "otherTags": []
+    },
+    "publication": {
+      "title": "Outrider's Cantrips",
+      "authors": "",
+      "license": "ORC",
+      "remaster": true
+    },
+    "unidentified": false,
+    "fromSpell": false,
+    "context": null
+  },
+  "_key": "!items!ocAmpFrostbite01"
+}

@@ -1,0 +1,65 @@
+{
+  "_id": "ocAmpDetectMag01",
+  "name": "Spell Effect: Detect Magic (Amped)",
+  "type": "effect",
+  "img": "systems/pf2e/icons/spells/detect-magic.webp",
+  "system": {
+    "slug": "spell-effect-detect-magic-amped",
+    "description": {
+      "value": "<p>Granted by @UUID[Compendium.pf2e.spells-srd.Item.gpzpAAAJ1Lza2JVl]{Detect Magic} (amped)</p>\n<p>Apply this to yourself with the enemy or hazard whose magic you detected targeted; with no target, you are asked to pick one. You gain a +1 status bonus to saves against magic originating from it for 3 rounds (+2 if the spell is 7th rank or higher). If you found magic from several sources, apply the effect once for each.</p>",
+      "gm": ""
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": 3,
+      "unit": "rounds",
+      "expiry": "turn-start",
+      "sustained": false
+    },
+    "rules": [
+      {
+        "key": "TokenMark",
+        "slug": "detect-magic-amped"
+      },
+      {
+        "key": "FlatModifier",
+        "selector": "saving-throw",
+        "type": "status",
+        "value": "ternary(gte(@item.level,7),2,1)",
+        "predicate": [
+          "origin:mark:detect-magic-amped",
+          {
+            "or": [
+              "item:magical",
+              "item:type:spell"
+            ]
+          }
+        ]
+      }
+    ],
+    "badge": null,
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "traits": {
+      "value": [],
+      "otherTags": []
+    },
+    "publication": {
+      "title": "Outrider's Cantrips",
+      "authors": "",
+      "license": "ORC",
+      "remaster": true
+    },
+    "unidentified": false,
+    "fromSpell": false,
+    "context": null
+  },
+  "_key": "!items!ocAmpDetectMag01"
+}

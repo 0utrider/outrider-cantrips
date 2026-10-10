@@ -1,0 +1,54 @@
+# Node / Foundry VTT tooling
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+package-lock.json
+
+# Build output
+dist/
+build/
+*.min.js
+*.min.css
+*.zip
+
+# Local-only assets
+icons/
+
+# Compendium pack LevelDB internals
+packs/*/LOCK
+packs/*/LOG
+packs/*/LOG.old
+
+# Foundry VTT data (local instance data, not source)
+Data/
+/data/
+*.db
+*.db-wal
+*.db-shm
+
+# Secrets & credentials
+.env
+.env.*
+*_secret*
+
+# Logs & temp
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.sublime-workspace
+
+# packs/*/*.log holds pack data (LevelDB), must stay committed despite the *.log rule above
+!packs/*/*.log

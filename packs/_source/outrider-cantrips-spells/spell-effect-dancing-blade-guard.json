@@ -1,0 +1,55 @@
+{
+  "_id": "ocAmpBladeGuard1",
+  "name": "Spell Effect: Dancing Blade (Guard)",
+  "type": "effect",
+  "img": "systems/pf2e/icons/spells/dancing-blade.webp",
+  "system": {
+    "slug": "spell-effect-dancing-blade-guard",
+    "description": {
+      "value": "<p>Granted by @UUID[Compendium.pf2e.spells-srd.Item.ViqzVEprQVzCXZ9f]{Dancing Blade} (amped)</p>\n<p>The weapon guards you. You gain a +2 circumstance bonus to AC against melee attacks until the start of the caster's next turn or until the weapon Changes Partners, whichever comes first.</p>",
+      "gm": ""
+    },
+    "level": {
+      "value": 5
+    },
+    "duration": {
+      "value": 1,
+      "unit": "rounds",
+      "expiry": "turn-start",
+      "sustained": false
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "selector": "ac",
+        "type": "circumstance",
+        "value": 2,
+        "predicate": [
+          "item:melee"
+        ]
+      }
+    ],
+    "badge": null,
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "traits": {
+      "value": [],
+      "otherTags": []
+    },
+    "publication": {
+      "title": "Outrider's Cantrips",
+      "authors": "",
+      "license": "ORC",
+      "remaster": true
+    },
+    "unidentified": false,
+    "fromSpell": false,
+    "context": null
+  },
+  "_key": "!items!ocAmpBladeGuard1"
+}

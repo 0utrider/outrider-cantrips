@@ -1,0 +1,64 @@
+{
+  "_id": "ocAmpOmniBonus01",
+  "name": "Effect: Omnidirectional Scan (Amped)",
+  "type": "effect",
+  "img": "systems/pf2e/icons/spells/omnidirectional-scan.webp",
+  "system": {
+    "slug": "effect-omnidirectional-scan-amped",
+    "description": {
+      "value": "<p>Granted by the aura of @UUID[Compendium.outrider-cantrips.outrider-cantrips-spells.Item.ocAmpOmniScan001]</p>\n<p>You gain a +1 circumstance bonus to attack rolls and damage rolls against the scanned enemy.</p>",
+      "gm": ""
+    },
+    "level": {
+      "value": 3
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "selector": "attack-roll",
+        "type": "circumstance",
+        "value": 1,
+        "predicate": [
+          "target:effect:omnidirectional-scan-amped-target"
+        ]
+      },
+      {
+        "key": "FlatModifier",
+        "selector": "damage",
+        "type": "circumstance",
+        "value": 1,
+        "predicate": [
+          "target:effect:omnidirectional-scan-amped-target"
+        ]
+      }
+    ],
+    "badge": null,
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "traits": {
+      "value": [],
+      "otherTags": []
+    },
+    "publication": {
+      "title": "Outrider's Cantrips",
+      "authors": "",
+      "license": "ORC",
+      "remaster": true
+    },
+    "unidentified": false,
+    "fromSpell": false,
+    "context": null
+  },
+  "_key": "!items!ocAmpOmniBonus01"
+}

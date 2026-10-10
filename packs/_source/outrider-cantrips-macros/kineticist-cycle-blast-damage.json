@@ -1,0 +1,9 @@
+{
+  "_id": "ocMacBlastDmgTy1",
+  "name": "Cycle Elemental Blast Damage",
+  "type": "script",
+  "img": "systems/pf2e/icons/spells/elemental-zone.webp",
+  "scope": "global",
+  "command": "// Cycles an owned kineticist's Elemental Blast through its available damage types.\n// Part of Outrider's Mods - 0utrider.github.io/pathfinder\ngame.modules.get(\"outrider-cantrips\")?.api?.cycleBlastDamageType?.();",
+  "_key": "!macros!ocMacBlastDmgTy1"
+}

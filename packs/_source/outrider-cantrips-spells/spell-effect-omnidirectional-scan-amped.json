@@ -1,0 +1,58 @@
+{
+  "_id": "ocAmpOmniScan001",
+  "name": "Spell Effect: Omnidirectional Scan (Amped)",
+  "type": "effect",
+  "img": "systems/pf2e/icons/spells/omnidirectional-scan.webp",
+  "system": {
+    "slug": "spell-effect-omnidirectional-scan-amped",
+    "description": {
+      "value": "<p>Granted by @UUID[Compendium.pf2e.spells-srd.Item.l4bHFR9UW2XiY3kH]{Omnidirectional Scan} (amped)</p>\n<p>Apply this to yourself and @UUID[Compendium.outrider-cantrips.outrider-cantrips-spells.Item.ocAmpOmniTarget1] to the enemy you scanned. You and all allies within 30 feet gain a +1 circumstance bonus to attack rolls and damage rolls against that enemy.</p>\n<p>Not automated: learning the enemy's highest and lowest saving throws, and the larger bonus on an attack you Aid.</p>",
+      "gm": ""
+    },
+    "level": {
+      "value": 3
+    },
+    "duration": {
+      "value": 1,
+      "unit": "rounds",
+      "expiry": "turn-start",
+      "sustained": false
+    },
+    "rules": [
+      {
+        "key": "Aura",
+        "slug": "omnidirectional-scan-amped",
+        "radius": 30,
+        "effects": [
+          {
+            "affects": "allies",
+            "includesSelf": true,
+            "uuid": "Compendium.outrider-cantrips.outrider-cantrips-spells.Item.ocAmpOmniBonus01"
+          }
+        ]
+      }
+    ],
+    "badge": null,
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "traits": {
+      "value": [],
+      "otherTags": []
+    },
+    "publication": {
+      "title": "Outrider's Cantrips",
+      "authors": "",
+      "license": "ORC",
+      "remaster": true
+    },
+    "unidentified": false,
+    "fromSpell": false,
+    "context": null
+  },
+  "_key": "!items!ocAmpOmniScan001"
+}
