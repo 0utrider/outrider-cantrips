@@ -118,7 +118,11 @@
         "Cancel": "Cancel",
         "Active": "✦ active",
         "NoChanges": "{name}: no sheet changes",
-        "GateClosed": "{name}'s kinetic gate is closed. Channel Elements first."
+        "GateClosed": "{name}'s kinetic gate is closed. Channel Elements first.",
+        "ActionLabel": {
+          "1": "Action",
+          "2": "Actions"
+        }
       }
     },
     "Palettes": {

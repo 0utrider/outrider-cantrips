@@ -312,7 +312,8 @@ function summaryCard(actor, rows, element, cost, costChanged) {
     `<i class="fa-solid fa-${icon}" style="color:${color}"></i><span><span class="k">${key}:</span> ` +
     `<span class="${isChanged ? "chg" : ""}">${value}</span></span>`;
   const sum =
-    line("bolt", ACCENT, L(T("Actions")), L(`${I18N_ROOT}.Kineticist.ActionCost.${cost}`), costChanged) +
+    `<span class="action-glyph" style="color:${ACCENT};text-align:center">${cost}</span>` +
+    `<span class="${costChanged ? "chg" : ""}">${L(T(`ActionLabel.${cost}`))}</span>` +
     rows.map(({ config, now, was }) =>
       line(EL[config.element]?.icon ?? "atom", elColor(config.element), esc(shortLabel(config)),
         `<i class="fa-solid fa-${now.icon}" style="color:${dmgColor(now.value)}"></i> ${esc(now.label)}` +
