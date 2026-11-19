@@ -41,7 +41,7 @@ Class-specific options only show in their respective game system's Settings.
 | Psychic Amps | on | A per-cast "Amp?" prompt for the Psychic class's psi cantrips, covering all six Conscious Minds, plus the amp effects the system only describes in text (Daze, Forbidden Thought, Shatter Mind, Telekinetic Rend, Phase Bolt, Ghostly Shift, Guidance, Contagious Idea, Frostbite, and Telekinetic Hand's Shove and Disarm rolled as a real spell attack). |
 | Encore | on | A per-cast prompt for the Bard's composition spellshapes, Lingering Composition and Fortissimo Composition, with the Performance check rolled automatically and the result applied. |
 | Familiar's Echo | on | A per-cast prompt for the Witch's patron familiar ability on a Cast or Sustained hex, plus a Sustain button on the hex's own chat card. |
-| Kineticist shortcuts | n/a | Two macros, Toggle Elemental Blast and Cycle Elemental Blast Damage, reproducing controls already on the sheet. No setting, since there is nothing to turn off. |
+| Kineticist shortcuts | n/a | One macro, Blast Control: a dialog to set Elemental Blast's action cost and each element's damage type (the same controls as the sheet), with a Blast! button that rolls it, and damage-type themed attack and damage cards. No setting, since there is nothing to turn off. Replaces the old Toggle Elemental Blast and Cycle Elemental Blast Damage macros, whose copies on a hotbar keep working but are deprecated. |
 
 Each feature's chat cards get a small colored callout and tag, in a palette chosen per feature
 (six fixed options, plus a "Player Color" choice that matches the caster's own chat color).
