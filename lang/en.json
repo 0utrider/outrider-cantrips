@@ -95,6 +95,30 @@
         "ElementLabel": "Element",
         "OnlyOneType": "{name}: {blast} only deals {type} damage.",
         "Done": "{name}: {blast} set to {type} ({index}/{total})"
+      },
+      "BlastControl": {
+        "Title": "Blast Control",
+        "Choose": "Choose",
+        "Unsupported": "Blast Control needs the Pathfinder 2e system's Elemental Blast.",
+        "NoElements": "{name} has no Elemental Blast elements.",
+        "BlastName": "{name} Blast",
+        "Gate": "Kinetic gate",
+        "Open": "open",
+        "Closed": "closed",
+        "Target": "Target",
+        "TargetNone": "none",
+        "Actions": "Actions",
+        "Range": "Range",
+        "Ranged": "Ranged",
+        "Melee": "Melee",
+        "Map": "MAP",
+        "MapNone": "None",
+        "Blast": "Blast!",
+        "Save": "Save",
+        "Cancel": "Cancel",
+        "Active": "✦ active",
+        "NoChanges": "{name}: no sheet changes",
+        "GateClosed": "{name}'s kinetic gate is closed. Channel Elements first."
       }
     },
     "Palettes": {

@@ -151,3 +151,40 @@
   white-space: normal;
   word-break: normal;
 }
+
+/* Blast Control (scripts/features/blast-control.js). The per-damage-type chat
+   card rules are generated at ready; these are the dialog and the fixed bits. */
+.kblast-app .window-content{display:flex;flex-direction:column;min-height:0}
+.kblast-app .dialog-form{display:flex;flex-direction:column;flex:1;min-height:0}
+.kblast-app .dialog-content{display:flex;flex-direction:column;flex:1;min-height:0}
+.kblast{--kb-accent:#3fd0c9;display:flex;flex-direction:column;flex:1;min-height:0}
+.kblast fieldset{border:1px solid var(--color-border-light-tertiary,#888);border-radius:8px;padding:.5rem .6rem .65rem;margin:0 0 .65rem;min-width:0;transition:all .15s}
+.kblast legend{font-weight:bold;padding:0 .35rem}
+.kblast .row{display:grid;gap:.5rem}
+.kblast .row.two{grid-template-columns:1fr 1fr}
+.kblast .row.three{grid-template-columns:repeat(3,1fr)}
+.kblast label.pick{display:flex;align-items:center;gap:.6rem;min-width:0;padding:.45rem .6rem;border:1px solid #666;border-radius:8px;cursor:pointer;transition:all .1s}
+.kblast label.pick:hover{border-color:var(--c)}
+.kblast label.pick input{margin:0;flex:0 0 auto}
+.kblast label.pick .ico{flex:0 0 1.6rem;text-align:center;font-size:1.3rem}
+.kblast label.pick .txt{display:flex;flex-direction:column;line-height:1.15;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.kblast label.pick small{opacity:.75;font-size:.72rem;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.kblast label.pick:has(input:checked){background:color-mix(in srgb,var(--c) 22%,transparent);border-color:var(--c);box-shadow:0 0 5px var(--c)}
+.kblast .els{flex:1 1 auto;min-height:0;max-height:55vh;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;padding:6px 6px 0;margin:-6px -6px 0}
+.kblast fieldset.el{border-color:color-mix(in srgb,var(--el) 40%,transparent)}
+.kblast fieldset.el legend label{display:flex;align-items:center;gap:.4rem;cursor:pointer;color:color-mix(in srgb,var(--el) 70%,#bbb)}
+.kblast fieldset.el legend input{display:none}
+.kblast fieldset.el legend i{font-size:1.05rem}
+.kblast fieldset.el:has(legend input:checked){border-color:var(--el);box-shadow:0 0 7px var(--el),inset 0 0 4px color-mix(in srgb,var(--el) 35%,transparent)}
+.kblast fieldset.el:has(legend input:checked) legend label{color:var(--el);text-shadow:0 0 6px color-mix(in srgb,var(--el) 60%,transparent)}
+.kblast .meta{font-size:.82rem;opacity:.85;margin-bottom:.65rem;line-height:1.4}
+.kblast .meta .closed{color:#e57373}
+.kblast .meta .open{color:var(--kb-accent)}
+.kblast-head{align-items:center;gap:8px;margin-bottom:4px}
+.kblast-head img{flex:0 0 auto;border:none}
+.kblast-head h3{margin:0}
+.kblast-sum{display:grid;grid-template-columns:auto 1fr;gap:.25rem .6rem;align-items:center;font-size:.9rem;margin:.2rem 0 .1rem}
+.kblast-sum .k{opacity:.8}
+.kblast-sum i{width:1.1em;text-align:center}
+.kblast-sum .chg{font-weight:bold}
+.kblast-sum .act{font-size:.75rem;margin-left:.35rem;opacity:.9}

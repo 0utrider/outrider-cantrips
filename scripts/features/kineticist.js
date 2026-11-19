@@ -1,9 +1,14 @@
 import { MODULE_ID, I18N_ROOT } from "../constants.js";
+import { blastControl, registerBlastFx } from "./blast-control.js";
 
 /**
- * Kineticist QoL macros: switch Elemental Blast between its action costs, and
- * cycle its selected damage type, both the same toggle/selector the Kineticist
- * sheet itself exposes, just reachable from the hotbar mid-combat.
+ * Kineticist QoL: Blast Control (see blast-control.js) is the one macro now.
+ * `toggleBlastActionCost` and `cycleBlastDamageType` below are DEPRECATED shims
+ * kept only so copies of the old Toggle/Cycle macros already on a hotbar keep
+ * working. The old macros are no longer in the Macros pack.
+ *
+ * They switch Elemental Blast between its action costs, and cycle its selected
+ * damage type, both the same toggle/selector the Kineticist sheet itself exposes.
  *
  * The logic lives here behind the module API rather than in the Macros pack's
  * own script text: a macro a player has already dragged to a hotbar is a copy,
@@ -136,8 +141,11 @@ export const kineticist = {
   defaultEnabled: false,
   settings: {},
   init() {
-    // The macros in the Macros pack call these.
+    // The Blast Control macro calls blastControl; the other two are deprecated shims.
     const module = game.modules.get(MODULE_ID);
-    module.api = { ...module.api, toggleBlastActionCost, cycleBlastDamageType };
+    module.api = { ...module.api, blastControl, toggleBlastActionCost, cycleBlastDamageType };
+  },
+  ready() {
+    registerBlastFx();
   },
 };

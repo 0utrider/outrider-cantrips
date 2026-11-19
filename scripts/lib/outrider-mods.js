@@ -9,6 +9,9 @@
  * subfolder (each pack already shows its module as a subtitle). Per-module folders from older
  * versions are emptied into the root and deleted once empty.
  *
+ * Version 3 (v2 plus macrosNeedSync and syncModuleMacros). Check a module's copy is current with
+ * `cmp ~/projects/om-MASTER/outrider-mods.js scripts/lib/outrider-mods.js`; bump this line on any change.
+ *
  * Rules (see HANDOFF-OutriderMods-branding.md):
  * - Only move things that are top-level or in this module's own folder; anything the GM put
  *   in some other folder is left alone.
