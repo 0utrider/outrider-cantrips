@@ -78,7 +78,14 @@
       "NoGMWarning": "No GM is connected. {name}'s healing from Cantrip Mastery will not apply automatically."
     },
     "Kineticist": {
-      "NoKineticist": "You don't own a kineticist with Elemental Blast.",
+      "NoKineticist": "The selected token isn't a kineticist you own with Elemental Blast.",
+      "SelectToken": "Select your kineticist's token first.",
+      "AuraInactive": {
+        "Body": "{name}'s Kinetic Aura isn't active yet. Channel Elements to enable Elemental Blast.",
+        "Nevermind": "Nevermind",
+        "Channel": "Channel Elements",
+        "NoChannel": "{name} doesn't have the Channel Elements action."
+      },
       "PickerLabel": "Kineticist",
       "ActionCost": {
         "1": "One Action",
@@ -98,7 +105,6 @@
       },
       "BlastControl": {
         "Title": "Blast Control",
-        "Choose": "Choose",
         "Unsupported": "Blast Control needs the Pathfinder 2e system's Elemental Blast.",
         "NoElements": "{name} has no Elemental Blast elements.",
         "BlastName": "{name} Blast",

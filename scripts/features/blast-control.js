@@ -155,26 +155,55 @@ function decorateBlastMessage(doc) {
 }
 
 // ── Which kineticist? ───────────────────────────────────
-function ownedBlasters() {
-  return game.actors
-    .filter((a) => a.type === "character" && a.isOwner && a.class?.slug === "kineticist" && getToggle(a))
-    .sort((a, b) => a.name.localeCompare(b.name));
+const AURA_SLUG = "effect-kinetic-aura";
+const hasBlast = (a) => a?.itemTypes?.action.some((i) => i.slug === "elemental-blast");
+const isKineticist = (a) =>
+  a?.type === "character" && a.isOwner && a.class?.slug === "kineticist" && hasBlast(a);
+const hasAura = (a) => a.itemTypes.effect.some((e) => e.slug === AURA_SLUG);
+
+/** The kineticist among controlled tokens. Token actors work as-is, linked or not. */
+function resolveActor() {
+  const controlled = canvas.tokens?.controlled ?? [];
+  if (!controlled.length) {
+    ui.notifications.warn(L(`${I18N_ROOT}.Kineticist.SelectToken`));
+    return null;
+  }
+  const actor = controlled.map((t) => t.actor).find(isKineticist);
+  if (!actor) ui.notifications.warn(L(`${I18N_ROOT}.Kineticist.NoKineticist`));
+  return actor ?? null;
 }
 
-async function resolveActor(blasters) {
-  const chosen =
-    canvas.tokens?.controlled.map((t) => t.actor).find((a) => blasters.includes(a)) ??
-    (blasters.includes(game.user.character) ? game.user.character : null) ??
-    (blasters.length === 1 ? blasters[0] : null);
-  if (chosen) return chosen;
-  const options = blasters.map((a) => `<option value="${a.id}">${esc(a.name)}</option>`).join("");
-  const id = await foundry.applications.api.DialogV2.prompt({
+/** Kinetic Aura gate: offer Channel Elements, or bail. Resolves true once the aura is up. */
+async function ensureAura(actor) {
+  if (hasAura(actor)) return true;
+  const A = (key) => `${I18N_ROOT}.Kineticist.AuraInactive.${key}`;
+
+  const choice = await foundry.applications.api.DialogV2.wait({
     window: { title: L(T("Title")), icon: "fa-solid fa-hurricane" },
-    content: `<div class="form-group"><label>${L(`${I18N_ROOT}.Kineticist.PickerLabel`)}</label><div class="form-fields"><select name="id" autofocus>${options}</select></div></div>`,
-    ok: { label: L(T("Choose")), callback: (_e, button) => button.form.elements.id.value },
+    content: `<p>${F(A("Body"), { name: esc(actor.name) })}</p>`,
+    buttons: [
+      { action: "cancel", label: L(A("Nevermind")), icon: "fa-solid fa-xmark", default: true },
+      { action: "channel", label: L(A("Channel")) },
+    ],
     rejectClose: false,
+    render: (_event, dialog) =>
+      dialog.element
+        .querySelector('[data-action="channel"]')
+        ?.insertAdjacentHTML("afterbegin", '<span class="action-glyph">1</span>'),
   });
-  return id ? game.actors.get(id) : null;
+  if (choice !== "channel") return false;
+
+  const channel = actor.itemTypes.action.find((i) => i.slug === "channel-elements");
+  if (!channel) {
+    ui.notifications.warn(F(A("NoChannel"), { name: actor.name }));
+    return false;
+  }
+  // Same path as the sheet's Use button: posts the card and applies the self-effect.
+  await game.pf2e.rollItemMacro(channel.uuid);
+
+  // The effect lands asynchronously; give it a moment before handing off.
+  for (let i = 0; i < 20 && !hasAura(actor); i++) await new Promise((r) => setTimeout(r, 100));
+  return hasAura(actor);
 }
 
 // ── Dialog ──────────────────────────────────────────────
@@ -208,13 +237,13 @@ async function remember(actor, value) {
 
 const gateIsOpen = (actor) => !!actor.rollOptions.all["self:effect:kinetic-aura"];
 
-/** Opens Blast Control for a kineticist: the controlled token's, the user's character, the only one owned, or a pick. */
+/** Opens Blast Control for the controlled kineticist token, after making sure Kinetic Aura is up. */
 export async function blastControl({ actor } = {}) {
   if (!game.pf2e?.ElementalBlast) return ui.notifications.warn(L(T("Unsupported")));
-  const blasters = ownedBlasters();
-  if (!blasters.length) return ui.notifications.warn(L(`${I18N_ROOT}.Kineticist.NoKineticist`));
-  actor ??= await resolveActor(blasters);
+  actor ??= resolveActor();
   if (!actor) return;
+  if (!isKineticist(actor)) return ui.notifications.warn(L(`${I18N_ROOT}.Kineticist.NoKineticist`));
+  if (!(await ensureAura(actor))) return;
 
   const blast = new game.pf2e.ElementalBlast(actor);
   const configs = blast.configs;
@@ -275,7 +304,7 @@ export async function blastControl({ actor } = {}) {
   let changed = false;
   const costChanged = Number(choice.cost) !== blast.actionCost;
   if (costChanged) {
-    await actor.toggleRollOption("elemental-blast", "action-cost", getToggle(actor).itemId, true, String(choice.cost));
+    await actor.toggleRollOption("elemental-blast", "action-cost", getToggle(actor)?.itemId, true, String(choice.cost));
     changed = true;
   }
   const rows = [];
