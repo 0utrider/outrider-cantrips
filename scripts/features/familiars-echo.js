@@ -1,8 +1,9 @@
-import { MODULE_ID, I18N_ROOT } from "../constants.js";
+import { DATA_ID, PACKAGE_ID, I18N_ROOT } from "../constants.js";
 import { featureSettings } from "../feature-settings.js";
 import { applyPalette, paletteSetting, rerenderChat, watchPlayerColors } from "../card-palettes.js";
 import { beforeCast } from "../cast-hooks.js";
 import { isSpellCard } from "../spell-cards.js";
+import { systemFlags } from "../system.js";
 
 /**
  * Familiar's Echo: the Witch's patron familiar ability, which triggers whenever
@@ -256,7 +257,7 @@ function turnStamp() {
 function earlierHex(actor, stamp) {
   const messages = game.messages.contents;
   for (let i = messages.length - 1; i >= Math.max(0, messages.length - 100); i--) {
-    const cast = messages[i].flags?.[MODULE_ID]?.[HEX_FLAG];
+    const cast = messages[i].flags?.[DATA_ID]?.[HEX_FLAG];
     if (!cast || messages[i].flags.pf2e?.origin?.actor !== actor.uuid) continue;
     if (cast.combat === stamp.combat && cast.round === stamp.round && cast.turn === stamp.turn) return messages[i];
   }
@@ -306,14 +307,14 @@ function stampHexCard(message) {
   if (!isHex(spell)) return;
   pending.delete(uuid);
   const stamp = settings.get("hexGuard") ? turnStamp() : null;
-  if (stamp) message.updateSource({ [`flags.${MODULE_ID}.${HEX_FLAG}`]: stamp });
-  if (result) message.updateSource({ [`flags.${MODULE_ID}.${FLAG}`]: result });
+  if (stamp) message.updateSource({ [`flags.${DATA_ID}.${HEX_FLAG}`]: stamp });
+  if (result) message.updateSource({ [`flags.${DATA_ID}.${FLAG}`]: result });
 }
 
 /** Source for the effect an ability puts on its target, or null if the system's effect is missing. */
 async function effectSource(ability, result, patron) {
   const origin = { actor: result.origin, token: null, item: null, spellcasting: null, rollOptions: [] };
-  const flags = { [MODULE_ID]: { [FLAG]: result.key, origin: result.origin } };
+  const flags = { [DATA_ID]: { [FLAG]: result.key, origin: result.origin } };
   const untilNextTurn = { value: 1, unit: "rounds", expiry: "turn-start", sustained: false };
   if (!ability.effect) {
     return {
@@ -333,7 +334,7 @@ async function effectSource(ability, result, patron) {
   }
   const effect = await fromUuid(ability.effect);
   if (!effect) {
-    console.warn(`${MODULE_ID} | ${result.title}: the system's effect was not found`);
+    console.warn(`${PACKAGE_ID} | ${result.title}: the system's effect was not found`);
     return null;
   }
   const source = effect.toObject();
@@ -351,7 +352,7 @@ async function effectSource(ability, result, patron) {
  * earlier is replaced, so Sustaining every round does not stack it.
  */
 async function applyFamiliarAbility(message) {
-  const result = message.flags?.[MODULE_ID]?.[FLAG];
+  const result = message.flags?.[DATA_ID]?.[FLAG];
   const ability = result ? ABILITIES[result.key] : null;
   if (!ability || !result.target?.uuid) return;
   const target = (await fromUuid(result.target.uuid))?.actor;
@@ -359,7 +360,7 @@ async function applyFamiliarAbility(message) {
 
   const stale = target.itemTypes.effect
     .filter((effect) => {
-      const flag = effect.flags?.[MODULE_ID];
+      const flag = effect.flags?.[DATA_ID];
       return flag?.[FLAG] === result.key && flag.origin === result.origin;
     })
     .map((effect) => effect.id);
@@ -401,7 +402,7 @@ async function sustainHex(spell) {
       `<div class="pf2e chat-card item-card">` +
       `<header class="card-header flexrow"><img src="${spell.img}" alt=""><h3>${title} <span class="action-glyph">1</span></h3></header>` +
       `<div class="card-content">${reminder}</div></div>`,
-    flags: result ? { [MODULE_ID]: { [FLAG]: result } } : {},
+    flags: result ? { [DATA_ID]: { [FLAG]: result } } : {},
   });
 }
 
@@ -412,6 +413,10 @@ async function sustainHex(spell) {
  * palette chosen in the settings, and the card gets a tag beside its traits.
  */
 function markHexCard(message, html) {
+  // Only a hex's card or one carrying a familiar ability is ours. The roll option is read straight from the
+  // message: message.item and a settings read each cost more than everything else here, on every spell card.
+  const result = message.flags?.[DATA_ID]?.[FLAG];
+  if (!result && !systemFlags(message)?.origin?.rollOptions?.includes("origin:item:trait:hex")) return;
   const card = html.querySelector(".chat-card.item-card");
   if (!card) return;
 
@@ -424,13 +429,12 @@ function markHexCard(message, html) {
     button.textContent = game.i18n.localize(text("Sustain"));
     button.addEventListener("click", (event) => {
       event.preventDefault();
-      sustainHex(spell).catch((err) => console.error(`${MODULE_ID} | ${FEATURE_ID} Sustain failed`, err));
+      sustainHex(spell).catch((err) => console.error(`${PACKAGE_ID} | ${FEATURE_ID} Sustain failed`, err));
     });
     if (buttons.classList.contains("card-buttons")) buttons.append(button);
     else buttons.after(button);
   }
 
-  const result = message.flags?.[MODULE_ID]?.[FLAG];
   const content = card.querySelector(".card-content");
   if (!result || !content || !settings.get("cards") || card.querySelector(".outrider-familiar-line")) return;
 
@@ -489,7 +493,7 @@ export const familiarsEcho = {
     Hooks.on("createChatMessage", (message) => {
       if (!game.users.activeGM?.isSelf) return;
       applyFamiliarAbility(message).catch((err) =>
-        console.error(`${MODULE_ID} | ${FEATURE_ID} createChatMessage failed`, err),
+        console.error(`${PACKAGE_ID} | ${FEATURE_ID} createChatMessage failed`, err),
       );
     });
     Hooks.on("renderChatMessageHTML", (message, html) => markHexCard(message, html));

@@ -1,10 +1,10 @@
-import { MODULE_ID, I18N_ROOT } from "./constants.js";
+import { DATA_ID, PACKAGE_ID, I18N_ROOT } from "./constants.js";
 import { activeFeatures } from "./features/index.js";
 import { featureSettings } from "./feature-settings.js";
 import { CantripsSettingsMenu } from "./apps/settings-menu.js";
 
 export function registerSettings() {
-  game.settings.register(MODULE_ID, "syncedVersion", {
+  game.settings.register(DATA_ID, "syncedVersion", {
     scope: "world",
     config: false,
     type: String,
@@ -21,7 +21,7 @@ export function registerSettings() {
     }
   }
 
-  game.settings.registerMenu(MODULE_ID, "menu", {
+  game.settings.registerMenu(PACKAGE_ID, "menu", {
     name: `${I18N_ROOT}.Settings.Menu.Name`,
     label: `${I18N_ROOT}.Settings.Menu.Label`,
     hint: `${I18N_ROOT}.Settings.Menu.Hint`,

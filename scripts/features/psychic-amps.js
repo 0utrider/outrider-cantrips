@@ -1,4 +1,4 @@
-import { MODULE_ID, I18N_ROOT } from "../constants.js";
+import { extendApi, PACKAGE_ID, I18N_ROOT } from "../constants.js";
 import { featureSettings } from "../feature-settings.js";
 import { addFeatRules, resetActors } from "../feat-rules.js";
 import { beforeCast } from "../cast-hooks.js";
@@ -143,6 +143,8 @@ async function askToAmp(spell) {
 function markAmpedCard(message, html) {
   const origin = message.flags?.pf2e?.origin;
   if (origin?.type !== "spell" || !origin.rollOptions?.includes(AMPED_ORIGIN)) return;
+  // Read the setting only for an amped card: a settings read costs more than the checks above, on every message.
+  if (!settings.get("cards")) return;
   const card = html.querySelector(".chat-card.item-card");
   if (!card) return;
   card.classList.add("outrider-amped");
@@ -183,23 +185,20 @@ export const psychicAmps = {
   },
   init() {
     // The macros in the Macros pack call this.
-    const module = game.modules.get(MODULE_ID);
-    module.api = { ...module.api, spellAttackAction };
+    extendApi({ spellAttackAction });
 
     beforeCast(askToAmp);
     addFeatRules(AMP_RULES, () => settings.get("rules"));
     Hooks.on("createChatMessage", (message) => {
       if (!game.users.activeGM?.isSelf || !settings.get("riders")) return;
       applyAmpRider(message).catch((err) =>
-        console.error(`${MODULE_ID} | ${FEATURE_ID} createChatMessage failed`, err),
+        console.error(`${PACKAGE_ID} | ${FEATURE_ID} createChatMessage failed`, err),
       );
     });
     Hooks.on("preCreateItem", (item) => {
       if (settings.get("rules")) patchAmpedEffect(item);
     });
-    Hooks.on("renderChatMessageHTML", (message, html) => {
-      if (settings.get("cards")) markAmpedCard(message, html);
-    });
+    Hooks.on("renderChatMessageHTML", (message, html) => markAmpedCard(message, html));
     watchPlayerColors();
   },
 };

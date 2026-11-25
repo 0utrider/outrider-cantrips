@@ -1,4 +1,4 @@
-import { MODULE_ID, I18N_ROOT } from "../constants.js";
+import { DATA_ID, I18N_ROOT } from "../constants.js";
 import { activeFeatures } from "../features/index.js";
 import { featureSettings } from "../feature-settings.js";
 import { onSystem } from "../system.js";
@@ -22,7 +22,7 @@ const { ApplicationV2 } = foundry.applications.api;
  */
 export class CantripsSettingsMenu extends ApplicationV2 {
   static DEFAULT_OPTIONS = {
-    id: `${MODULE_ID}-settings`,
+    id: `${DATA_ID}-settings`,
     tag: "form",
     classes: ["outrider-cantrips-settings"],
     window: {
@@ -119,7 +119,7 @@ export class CantripsSettingsMenu extends ApplicationV2 {
 
   /** The registered choices of a setting as [value, label] pairs, or null for a checkbox. */
   static #choices(fullKey) {
-    const choices = game.settings.settings.get(`${MODULE_ID}.${fullKey}`)?.choices;
+    const choices = game.settings.settings.get(`${DATA_ID}.${fullKey}`)?.choices;
     return choices ? Object.entries(choices).map(([value, label]) => [value, game.i18n.localize(label)]) : null;
   }
 
@@ -127,7 +127,7 @@ export class CantripsSettingsMenu extends ApplicationV2 {
     const group = document.createElement("div");
     group.className = "form-group";
 
-    const id = `${MODULE_ID}-${name.replace(/\W+/g, "-")}`;
+    const id = `${DATA_ID}-${name.replace(/\W+/g, "-")}`;
     const labelEl = document.createElement("label");
     labelEl.htmlFor = id;
     labelEl.textContent = label;

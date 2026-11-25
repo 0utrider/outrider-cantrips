@@ -1,4 +1,4 @@
-import { MODULE_ID } from "./constants.js";
+import { PACKAGE_ID } from "./constants.js";
 
 /**
  * Work a feature does just before a spell is cast. libWrapper takes one wrapper
@@ -21,7 +21,7 @@ async function castWrapper(wrapped, spell, options = {}) {
       const done = await handler.call(this, spell, options);
       if (typeof done === "function") after.push(done);
     } catch (err) {
-      console.error(`${MODULE_ID} | before cast failed`, err);
+      console.error(`${PACKAGE_ID} | before cast failed`, err);
     }
   }
   try {
@@ -35,7 +35,7 @@ async function castWrapper(wrapped, spell, options = {}) {
 export function beforeCast(handler) {
   if (!HANDLERS.length) {
     libWrapper.register(
-      MODULE_ID,
+      PACKAGE_ID,
       "CONFIG.PF2E.Item.documentClasses.spellcastingEntry.prototype.cast",
       castWrapper,
       "MIXED",

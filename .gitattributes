@@ -1,0 +1,3 @@
+# Compendium packs are LevelDB files: never convert their line endings (a CRLF in CURRENT breaks the pack).
+packs/** -text
+packs/_source/** text=auto

@@ -1,4 +1,4 @@
-import { MODULE_ID, I18N_ROOT } from "./constants.js";
+import { DATA_ID, I18N_ROOT } from "./constants.js";
 
 /**
  * Feature-scoped settings helper. Keys are namespaced `<featureId>.<key>` and
@@ -24,7 +24,7 @@ export function featureSettings(featureId, i18nKey) {
     name: (key) => `${i18n(key)}.Name`,
     hint: (key) => `${i18n(key)}.Hint`,
     register(key, data) {
-      game.settings.register(MODULE_ID, fullKey(key), {
+      game.settings.register(DATA_ID, fullKey(key), {
         name: `${i18n(key)}.Name`,
         hint: `${i18n(key)}.Hint`,
         scope: "world",
@@ -33,7 +33,7 @@ export function featureSettings(featureId, i18nKey) {
         ...data,
       });
     },
-    get: (key) => game.settings.get(MODULE_ID, fullKey(key)),
-    set: (key, value) => game.settings.set(MODULE_ID, fullKey(key), value),
+    get: (key) => game.settings.get(DATA_ID, fullKey(key)),
+    set: (key, value) => game.settings.set(DATA_ID, fullKey(key), value),
   };
 }

@@ -1,4 +1,4 @@
-import { MODULE_ID, I18N_ROOT } from "../constants.js";
+import { DATA_ID, PACKAGE_ID, I18N_ROOT } from "../constants.js";
 import { featureSettings } from "../feature-settings.js";
 import { addFeatRules } from "../feat-rules.js";
 import { applyPalette, watchPlayerColors } from "../card-palettes.js";
@@ -180,7 +180,7 @@ function effectPreCreateWrapper(wrapped, ...args) {
   try {
     boostTempHP(this, args[0]);
   } catch (err) {
-    console.error(`${MODULE_ID} | ${FEATURE_ID} temporary Hit Points failed`, err);
+    console.error(`${PACKAGE_ID} | ${FEATURE_ID} temporary Hit Points failed`, err);
   }
   return wrapped(...args);
 }
@@ -218,7 +218,7 @@ function stampSpellCard(message) {
     }
   }
   if (!Object.keys(flag).length) return;
-  message.updateSource({ [`flags.${MODULE_ID}.${FLAG}`]: flag });
+  message.updateSource({ [`flags.${DATA_ID}.${FLAG}`]: flag });
 
   if (flag.heal?.targets.length && !game.users.activeGM) {
     ChatMessage.create({
@@ -237,7 +237,7 @@ function stampSpellCard(message) {
  * Stabilize, and healing alone leaves Dying in place.
  */
 async function applyStabilizeHealing(message) {
-  const heal = message.flags?.[MODULE_ID]?.[FLAG]?.heal;
+  const heal = message.flags?.[DATA_ID]?.[FLAG]?.heal;
   if (!heal?.targets?.length) return;
   for (const { uuid } of heal.targets) {
     const token = await fromUuid(uuid);
@@ -286,7 +286,7 @@ const grantsTempHP = (link) =>
  * link to an effect with temporary Hit Points.
  */
 function markCantripCard(message, html) {
-  const flag = message.flags?.[MODULE_ID]?.[FLAG];
+  const flag = message.flags?.[DATA_ID]?.[FLAG];
   const card = flag ? html.querySelector(".chat-card.item-card") : null;
   const content = card?.querySelector(".card-content");
   if (!content || content.querySelector(".outrider-mastery-note")) return;
@@ -294,7 +294,7 @@ function markCantripCard(message, html) {
   // Each line is [text, tooltip, strong]. The text is short; the tooltip says where the number is from.
   const lines = [];
   if (flag.heal) {
-    rewriteStabilize(content).catch((err) => console.error(`${MODULE_ID} | ${FEATURE_ID} card text failed`, err));
+    rewriteStabilize(content).catch((err) => console.error(`${PACKAGE_ID} | ${FEATURE_ID} card text failed`, err));
     const names = flag.heal.targets.map((target) => target.name).join(", ");
     lines.push([
       game.i18n.format(text(names ? "StabilizeHeal" : "StabilizeHealNoTarget"), {
@@ -349,13 +349,13 @@ function markCantripCard(message, html) {
 export function initCantripMastery() {
   addFeatRules(BLAST_RULES, () => settings.get("cantripMasteryBlast") && settings.get("cantripMastery"));
   libWrapper.register(
-    MODULE_ID,
+    PACKAGE_ID,
     "CONFIG.PF2E.Item.documentClasses.spell.prototype.getDamage",
     getDamageWrapper,
     "WRAPPER",
   );
   libWrapper.register(
-    MODULE_ID,
+    PACKAGE_ID,
     "CONFIG.PF2E.Item.documentClasses.effect.prototype._preCreate",
     effectPreCreateWrapper,
     "WRAPPER",
@@ -364,7 +364,7 @@ export function initCantripMastery() {
   Hooks.on("createChatMessage", (message) => {
     if (!game.users.activeGM?.isSelf) return;
     applyStabilizeHealing(message).catch((err) =>
-      console.error(`${MODULE_ID} | ${FEATURE_ID} createChatMessage failed`, err),
+      console.error(`${PACKAGE_ID} | ${FEATURE_ID} createChatMessage failed`, err),
     );
   });
   Hooks.on("renderChatMessageHTML", (message, html) => markCantripCard(message, html));

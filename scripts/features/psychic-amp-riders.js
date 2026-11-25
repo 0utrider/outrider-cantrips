@@ -1,4 +1,4 @@
-import { MODULE_ID, I18N_ROOT } from "../constants.js";
+import { DATA_ID, PACKAGE_ID, I18N_ROOT } from "../constants.js";
 import { castOptions, castWithStandardAmp } from "./psychic-amp-cast.js";
 import { ampEffectUuid } from "./psychic-amp-rules.js";
 
@@ -94,7 +94,7 @@ function spellSlug(origin) {
 /** This module's rider effects on an actor for one spell and caster. */
 const ridersOn = (actor, slug, casterUuid) =>
   actor.itemTypes.effect.filter((effect) => {
-    const flag = effect.flags?.[MODULE_ID];
+    const flag = effect.flags?.[DATA_ID];
     return flag?.rider === slug && flag.origin === casterUuid;
   });
 
@@ -115,7 +115,7 @@ function effectSource(slug, spell, origin, { key, fromCaster, duration, rules },
       rules,
       context: fromCaster ? { origin: { actor: origin.actor } } : null,
     },
-    flags: { [MODULE_ID]: { rider: slug, origin: origin.actor } },
+    flags: { [DATA_ID]: { rider: slug, origin: origin.actor } },
   };
 }
 
@@ -171,7 +171,7 @@ async function applyFrostbiteDrain(message) {
 
   const template = await fromUuid(ampEffectUuid("frostbite"));
   if (!template) {
-    console.warn(`${MODULE_ID} | Spell Effect: Frostbite (Amped) is missing from the Spells pack`);
+    console.warn(`${PACKAGE_ID} | Spell Effect: Frostbite (Amped) is missing from the Spells pack`);
     return;
   }
   const stale = ridersOn(caster, "frostbite", origin.actor);
@@ -184,7 +184,7 @@ async function applyFrostbiteDrain(message) {
   const source = template.toObject();
   source.system.badge.value = gain;
   source.system.level.value = origin.castRank ?? 1;
-  source.flags[MODULE_ID] = { rider: "frostbite", origin: origin.actor };
+  source.flags[DATA_ID] = { rider: "frostbite", origin: origin.actor };
   await caster.createEmbeddedDocuments("Item", [source]);
 }
 

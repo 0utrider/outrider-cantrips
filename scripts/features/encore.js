@@ -1,4 +1,4 @@
-import { MODULE_ID, I18N_ROOT } from "../constants.js";
+import { DATA_ID, PACKAGE_ID, I18N_ROOT } from "../constants.js";
 import { featureSettings } from "../feature-settings.js";
 import { applyPalette, paletteSetting, rerenderChat, watchPlayerColors } from "../card-palettes.js";
 import { beforeCast } from "../cast-hooks.js";
@@ -246,13 +246,13 @@ function stampEncoreCard(message) {
   const result = uuid ? pending.get(uuid) : null;
   if (!result || !isSpellCard(message)) return;
   pending.delete(uuid);
-  message.updateSource({ [`flags.${MODULE_ID}.${FLAG}`]: result });
+  message.updateSource({ [`flags.${DATA_ID}.${FLAG}`]: result });
 }
 
 /** What the newest card of an effect's origin spell earned, if the effect was dragged from a spell card. */
 function resultFor(effectSource) {
   const spell = effectSource.system?.context?.origin?.item;
-  return spell ? (lastSpellCard(spell)?.flags?.[MODULE_ID]?.[FLAG] ?? null) : null;
+  return spell ? (lastSpellCard(spell)?.flags?.[DATA_ID]?.[FLAG] ?? null) : null;
 }
 
 /**
@@ -290,7 +290,7 @@ async function followFortissimo(item) {
 
   const effect = await fromUuid(FORTISSIMO_EFFECT);
   if (!effect) {
-    console.warn(`${MODULE_ID} | Spell Effect: Fortissimo Composition was not found in the system's effects`);
+    console.warn(`${PACKAGE_ID} | Spell Effect: Fortissimo Composition was not found in the system's effects`);
     return;
   }
   const source = effect.toObject();
@@ -299,7 +299,7 @@ async function followFortissimo(item) {
   choice.selection = result.value;
   source.system.context = foundry.utils.deepClone(item._source.system.context);
   source.system.level = { value: item.level };
-  source.flags = { ...source.flags, [MODULE_ID]: { [FLAG]: true } };
+  source.flags = { ...source.flags, [DATA_ID]: { [FLAG]: true } };
 
   const origin = item._source.system.context?.origin?.actor;
   const stale = actor.itemTypes.effect
@@ -316,9 +316,10 @@ async function followFortissimo(item) {
  * the check succeeded, both in the palette chosen in the settings.
  */
 function markEncoreCard(message, html) {
-  const result = message.flags?.[MODULE_ID]?.[FLAG];
+  const result = message.flags?.[DATA_ID]?.[FLAG];
   const shape = result ? SPELLSHAPES[result.type] : null;
-  const card = shape ? html.querySelector(".chat-card.item-card") : null;
+  // The setting is read only for a card that carries a result: a settings read is the costly part on every message.
+  const card = shape && settings.get("cards") ? html.querySelector(".chat-card.item-card") : null;
   const content = card?.querySelector(".card-content");
   if (!content || content.querySelector(".outrider-encore-note")) return;
 
@@ -363,11 +364,9 @@ export const encore = {
     });
     Hooks.on("createItem", (item, _options, userId) => {
       if (userId !== game.user.id || !settings.get("effects")) return;
-      followFortissimo(item).catch((err) => console.error(`${MODULE_ID} | ${FEATURE_ID} createItem failed`, err));
+      followFortissimo(item).catch((err) => console.error(`${PACKAGE_ID} | ${FEATURE_ID} createItem failed`, err));
     });
-    Hooks.on("renderChatMessageHTML", (message, html) => {
-      if (settings.get("cards")) markEncoreCard(message, html);
-    });
+    Hooks.on("renderChatMessageHTML", (message, html) => markEncoreCard(message, html));
     watchPlayerColors();
   },
 };

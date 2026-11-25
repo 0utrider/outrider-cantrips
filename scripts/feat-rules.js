@@ -1,4 +1,4 @@
-import { MODULE_ID } from "./constants.js";
+import { PACKAGE_ID } from "./constants.js";
 
 /**
  * Rule elements a feature adds to a feat or class feature an actor owns. They
@@ -43,7 +43,7 @@ function prepareRuleElements(wrapped, ...args) {
 export function addFeatRules(rulesBySlug, enabled = () => true) {
   if (!SOURCES.length) {
     libWrapper.register(
-      MODULE_ID,
+      PACKAGE_ID,
       "CONFIG.PF2E.Item.documentClasses.feat.prototype.prepareRuleElements",
       prepareRuleElements,
       "WRAPPER",

@@ -1,4 +1,4 @@
-import { MODULE_ID, I18N_ROOT } from "../constants.js";
+import { extendApi, I18N_ROOT } from "../constants.js";
 import { blastControl, registerBlastFx } from "./blast-control.js";
 
 /**
@@ -142,8 +142,7 @@ export const kineticist = {
   settings: {},
   init() {
     // The Blast Control macro calls blastControl; the other two are deprecated shims.
-    const module = game.modules.get(MODULE_ID);
-    module.api = { ...module.api, blastControl, toggleBlastActionCost, cycleBlastDamageType };
+    extendApi({ blastControl, toggleBlastActionCost, cycleBlastDamageType });
   },
   ready() {
     registerBlastFx();

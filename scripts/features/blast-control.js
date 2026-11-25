@@ -1,4 +1,4 @@
-import { MODULE_ID, I18N_ROOT } from "../constants.js";
+import { DATA_ID, I18N_ROOT } from "../constants.js";
 
 /**
  * Blast Control: one dialog for a kineticist's Elemental Blast. It sets the
@@ -79,44 +79,77 @@ const blastArt = (config, type) => ART[PHYSICAL.includes(type) ? config.element 
 const selectedType = (config) => config.damageTypes.find((d) => d.selected) ?? config.damageTypes[0];
 const getToggle = (actor) => actor.synthetics?.toggles?.["elemental-blast"]?.["action-cost"];
 
-// ── Chat cards: themed by damage type, keyed on a marker stamped into each card ──
+// ── Chat cards: themed by damage type ───────────────────
 // A straight port of the Thrall Attack card styling: graphite base, colored border, gradient and glow.
+// One shared rule set reads its color from custom properties that the render hook sets on each card
+// (--kb, --kb-t1, --kb-t2, --kb-ink), so the sheet stays about 30 rules whatever the damage type. Cards are
+// matched by a class, not by :has() on the marker, which would be re-evaluated on every chat change.
+const CARD_SEL = "li.chat-message.kblast-card[data-kblast][data-kblast-kind]"; // 4 classes/attributes: outranks the system's card rules
 function chatCss() {
   const BASE = "#404047";
-  const TINT = { vitality: 22 };
-  return Object.entries(DMG_COLORS).map(([t, c]) => {
-    const sel = `li.chat-message:has(.kblast-fx[data-type="${t}"])`;
-    const top = TINT[t] ?? 28;
-    const ink = t === "vitality" ? "#ffffff" : mix(c, 65, "#fff");
-    return `${sel}{border:2px solid ${c};border-radius:8px;color:#ececef;` +
-      `background:radial-gradient(110% 80% at 100% 100%,${mix(c, 14, "transparent")},transparent 60%),` +
-      `linear-gradient(180deg,${mix(c, top, BASE)} 0%,${mix(c, Math.round(top * 0.43), BASE)} 22%,${BASE} 40%) !important;` +
-      `box-shadow:0 0 8px ${mix(c, 55, "transparent")},inset 0 0 6px ${mix(c, 30, "transparent")}}` +
-      `${sel} .message-header{border-bottom:1px solid ${mix(c, 70, "transparent")}}` +
-      `${sel} .message-header, ${sel} .flavor-text, ${sel} .message-content{color:#ececef}` +
-      `${sel} .message-metadata, ${sel} .message-metadata a, ${sel} .whisper-to{color:#b3b3bc}` +
-      `${sel} .card-header h3{color:${ink};text-shadow:0 0 1px ${c}, 0 0 6px ${c}66;font-weight:bold}` +
-      `${sel} h4.action, ${sel} h4.action strong{color:#ececef}` +
-      `${sel} h4.message-sender{color:#ececef}` +
-      `${sel} .message-content button{color:#ececef;background:rgba(255,255,255,.07);border:1px solid ${mix(c, 45, "#555")};box-shadow:none}` +
-      `${sel} .message-content button:hover{background:${mix(c, 22, "transparent")};border-color:${c};box-shadow:0 0 4px ${mix(c, 50, "transparent")}}` +
-      `${sel} .message-content button.critical-success{color:${ink}}` +
-      `${sel} .dice-formula{color:#ececef;background:rgba(0,0,0,.25);border:1px solid ${mix(c, 35, "transparent")}}` +
-      `${sel} .dice-total{background:rgba(0,0,0,.3);border:1px solid ${mix(c, 50, "transparent")}}` +
-      `${sel} .dice-total:not([class*="success"]):not([class*="failure"]){color:#fff}` +
-      `${sel} .dice-tooltip .tooltip-part{background:rgba(0,0,0,.2);border-color:${mix(c, 30, "transparent")}}` +
-      `${sel} :is(.degree-of-success, .dice-total) :is(.critical-success, .criticalSuccess), ${sel} .dice-total:is(.critical-success, .criticalSuccess){color:#5fd87a}` +
-      `${sel} .degree-of-success .success, ${sel} .dice-total.success{color:#7fb4ff}` +
-      `${sel} .degree-of-success .failure, ${sel} .dice-total.failure{color:#ffa64d}` +
-      `${sel} :is(.degree-of-success, .dice-total) :is(.critical-failure, .criticalFailure), ${sel} .dice-total:is(.critical-failure, .criticalFailure){color:#ff9494}` +
-      `${sel} .dice-tooltip :is(.part-formula, .part-total, .part-header){color:#ececef}` +
-      `${sel} :is(.damage.instance, .tooltip-part.damage){color:#ececef}` +
-      `${sel} :is(.damage.instance, .tooltip-part.damage) i{color:${c}}` +
-      `${sel} [data-visibility="gm"]{color:#ececef;background:${mix(c, 22, "transparent")};border-radius:3px}` +
-      `${sel} .message-content hr{border-color:${mix(c, 50, "transparent")};background:${mix(c, 50, "transparent")}}` +
-      `${sel} h4.action i.kblast-ico{color:${c};text-shadow:0 0 1px #000;font-size:1.35em;vertical-align:-.12em;margin-left:.15em}` +
-      `li.chat-message:has(.kblast-fx[data-type="${t}"][data-kind="attack-roll"]) h4.action{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em}`;
-  }).join("\n");
+  const sel = CARD_SEL;
+  // A number is a percentage; a var() already holds its own "%" (writing one after it gives "28%%" and drops the whole declaration).
+  const m = (percent, base) => `color-mix(in srgb,var(--kb) ${typeof percent === "number" ? `${percent}%` : percent},${base})`;
+  return [
+    `${sel}{border:2px solid var(--kb);border-radius:8px;color:#ececef;` +
+      `background:radial-gradient(110% 80% at 100% 100%,${m(14, "transparent")},transparent 60%),` +
+      `linear-gradient(180deg,${m("var(--kb-t1)", BASE)} 0%,${m("var(--kb-t2)", BASE)} 22%,${BASE} 40%) !important;` +
+      `box-shadow:0 0 8px ${m(55, "transparent")},inset 0 0 6px ${m(30, "transparent")}}`,
+    `${sel} .message-header{border-bottom:1px solid ${m(70, "transparent")}}`,
+    `${sel} .message-header, ${sel} .flavor-text, ${sel} .message-content{color:#ececef}`,
+    `${sel} .message-metadata, ${sel} .message-metadata a, ${sel} .whisper-to{color:#b3b3bc}`,
+    `${sel} .card-header h3{color:var(--kb-ink);text-shadow:0 0 1px var(--kb), 0 0 6px ${m(40, "transparent")};font-weight:bold}`,
+    `${sel} h4.action, ${sel} h4.action strong{color:#ececef}`,
+    `${sel} h4.message-sender{color:#ececef}`,
+    `${sel} .message-content button{color:#ececef;background:rgba(255,255,255,.07);border:1px solid ${m(45, "#555")};box-shadow:none}`,
+    `${sel} .message-content button:hover{background:${m(22, "transparent")};border-color:var(--kb);box-shadow:0 0 4px ${m(50, "transparent")}}`,
+    `${sel} .message-content button.critical-success{color:var(--kb-ink)}`,
+    `${sel} .dice-formula{color:#ececef;background:rgba(0,0,0,.25);border:1px solid ${m(35, "transparent")}}`,
+    `${sel} .dice-total{background:rgba(0,0,0,.3);border:1px solid ${m(50, "transparent")}}`,
+    `${sel} .dice-total:not([class*="success"]):not([class*="failure"]){color:#fff}`,
+    `${sel} .dice-tooltip .tooltip-part{background:rgba(0,0,0,.2);border-color:${m(30, "transparent")}}`,
+    `${sel} :is(.degree-of-success, .dice-total) :is(.critical-success, .criticalSuccess), ${sel} .dice-total:is(.critical-success, .criticalSuccess){color:#5fd87a}`,
+    `${sel} .degree-of-success .success, ${sel} .dice-total.success{color:#7fb4ff}`,
+    `${sel} .degree-of-success .failure, ${sel} .dice-total.failure{color:#ffa64d}`,
+    `${sel} :is(.degree-of-success, .dice-total) :is(.critical-failure, .criticalFailure), ${sel} .dice-total:is(.critical-failure, .criticalFailure){color:#ff9494}`,
+    `${sel} .dice-tooltip :is(.part-formula, .part-total, .part-header){color:#ececef}`,
+    `${sel} :is(.damage.instance, .tooltip-part.damage){color:#ececef}`,
+    `${sel} :is(.damage.instance, .tooltip-part.damage) i{color:var(--kb)}`,
+    `${sel} [data-visibility="gm"]{color:#ececef;background:${m(22, "transparent")};border-radius:3px}`,
+    `${sel} .message-content hr{border-color:${m(50, "transparent")};background:${m(50, "transparent")}}`,
+    `${sel} h4.action i.kblast-ico{color:var(--kb);text-shadow:0 0 1px #000;font-size:1.35em;vertical-align:-.12em;margin-left:.15em}`,
+    `${sel}[data-kblast-kind="attack-roll"] h4.action{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em}`,
+  ].join("\n");
+}
+
+/** Adds the stylesheet the first time a blast card needs it, so worlds without blasts carry none of it. */
+function addCssOnce() {
+  if (document.getElementById("kblast-chat-css")) return;
+  const style = document.createElement("style");
+  style.id = "kblast-chat-css";
+  style.textContent = chatCss();
+  document.head.append(style);
+}
+
+const FX_MARKER = /class="kblast-fx" data-type="([^"]*)" data-kind="([^"]*)"/;
+
+/** Renders: marks a decorated card with a class and its colors. Stored cards and history come through here too. */
+function styleBlastCard(message, html) {
+  const text = message.flavor?.includes("kblast-fx") ? message.flavor
+    : message.content?.includes("kblast-fx") ? message.content : null;
+  const found = text && FX_MARKER.exec(text);
+  if (!found) return;
+  const [, type, kind] = found;
+  const color = dmgColor(type);
+  const top = type === "vitality" ? 22 : 28;
+  addCssOnce();
+  html.classList.add("kblast-card");
+  html.dataset.kblast = type;
+  html.dataset.kblastKind = kind;
+  html.style.setProperty("--kb", color);
+  html.style.setProperty("--kb-t1", `${top}%`);
+  html.style.setProperty("--kb-t2", `${Math.round(top * 0.43)}%`);
+  html.style.setProperty("--kb-ink", type === "vitality" ? "#ffffff" : mix(color, 65, "#fff"));
 }
 
 /** Themes and renames Elemental Blast attack and damage cards, whoever rolled them and however. */
@@ -228,11 +261,11 @@ function elementRow(config, activeElement) {
   );
 }
 
-const memoryFlag = (actor) => game.user.getFlag(MODULE_ID, "elementalBlast")?.[actor.id] ?? {};
+// Read raw and written with update(): getFlag and setFlag refuse the prod scope while a dev build runs.
+const memoryFlag = (actor) => game.user.flags?.[DATA_ID]?.elementalBlast?.[actor.id] ?? {};
 
 async function remember(actor, value) {
-  const all = game.user.getFlag(MODULE_ID, "elementalBlast") ?? {};
-  await game.user.setFlag(MODULE_ID, "elementalBlast", { ...all, [actor.id]: value });
+  await game.user.update({ [`flags.${DATA_ID}.elementalBlast.${actor.id}`]: value });
 }
 
 const gateIsOpen = (actor) => !!actor.rollOptions.all["self:effect:kinetic-aura"];
@@ -357,12 +390,14 @@ function summaryCard(actor, rows, element, cost, costChanged) {
   });
 }
 
-/** Registers the card decorator and its per-type CSS. Called at ready on every client. */
+/** Registers the card decorator and the render hook that themes cards. Called at ready on every client. */
 export function registerBlastFx() {
   document.getElementById("kblast-chat-css")?.remove();
-  const style = document.createElement("style");
-  style.id = "kblast-chat-css";
-  style.textContent = chatCss();
-  document.head.append(style);
   Hooks.on("preCreateChatMessage", decorateBlastMessage);
+  Hooks.on("renderChatMessageHTML", styleBlastCard);
+  // The log draws its first batch before ready, so those cards never reach the hook: theme them now.
+  for (const li of document.querySelectorAll("li.chat-message[data-message-id]")) {
+    const message = game.messages.get(li.dataset.messageId);
+    if (message) styleBlastCard(message, li);
+  }
 }
